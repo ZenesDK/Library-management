@@ -1,0 +1,41 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:LibraryApp.ViewModels"
+        xmlns:models="using:LibraryApp.Models"
+        x:Class="LibraryApp.Views.AuthorsWindow"
+        x:DataType="vm:AuthorsWindowViewModel"
+        Title="Управление авторами"
+        Width="500" Height="400">
+    
+    <Design.DataContext>
+        <vm:AuthorsWindowViewModel />
+    </Design.DataContext>
+    
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <ListBox Grid.Row="0" 
+                 ItemsSource="{Binding Authors}" 
+                 SelectedItem="{Binding SelectedAuthor}"
+                 Margin="0,0,0,10">
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="models:Author">
+                    <TextBlock Text="{Binding FullName}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <StackPanel Grid.Row="1" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right" 
+                    Spacing="10">
+            <Button Content="Добавить" Command="{Binding AddCommand}" Width="80"/>
+            <Button Content="Изменить" Command="{Binding EditCommand}" Width="80"/>
+            <Button Content="Удалить" Command="{Binding DeleteCommand}" Width="80"/>
+            <Button Content="Закрыть" Command="{Binding CloseCommand}" Width="80"/>
+        </StackPanel>
+    </Grid>
+</Window>

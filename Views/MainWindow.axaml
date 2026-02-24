@@ -1,0 +1,100 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:LibraryApp.ViewModels"
+        xmlns:models="using:LibraryApp.Models"
+        x:Class="LibraryApp.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="Библиотека книг"
+        Width="1100" Height="600">
+    
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+    
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Заголовок -->
+        <TextBlock Grid.Row="0" 
+                   Text="Управление библиотекой книг" 
+                   FontSize="20" 
+                   FontWeight="Bold" 
+                   Margin="0,0,0,10"/>
+        
+        <!-- Панель поиска и фильтрации -->
+        <StackPanel Grid.Row="1" 
+                    Orientation="Horizontal" 
+                    Spacing="10" 
+                    Margin="0,0,0,10">
+            
+            <TextBox Watermark="Поиск по названию..." 
+                     Width="200" 
+                     Text="{Binding SearchText}"/>
+            
+            <ComboBox Width="150" 
+                      PlaceholderText="Автор" 
+                      ItemsSource="{Binding Authors}"
+                      SelectedItem="{Binding SelectedAuthor}"
+                      DisplayMemberBinding="{Binding FullName}"/>
+            
+            <ComboBox Width="150" 
+                      PlaceholderText="Жанр" 
+                      ItemsSource="{Binding Genres}"
+                      SelectedItem="{Binding SelectedGenre}"
+                      DisplayMemberBinding="{Binding Name}"/>
+            
+            <Button Content="Сбросить" Command="{Binding ResetFiltersCommand}"/>
+            <Button Content="Обновить" Command="{Binding ForceRefreshCommand}"/>
+        </StackPanel>
+        
+        <!-- Список книг -->
+        <ListBox Grid.Row="2" 
+                 ItemsSource="{Binding FilteredBooks}" 
+                 SelectedItem="{Binding SelectedBook}"
+                 Margin="0,0,0,10">
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="models:Book">
+                    <Border BorderBrush="Gray" BorderThickness="0,0,0,1" Padding="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="80"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="{Binding Id}"/>
+                            <TextBlock Grid.Column="1" Text="{Binding Title}"/>
+                            <TextBlock Grid.Column="2" Text="{Binding AuthorsDisplay}"/>
+                            <TextBlock Grid.Column="3" Text="{Binding GenresDisplay}"/>
+                            <TextBlock Grid.Column="4" Text="{Binding PublishYear}"/>
+                            <TextBlock Grid.Column="5" Text="{Binding ISBN}"/>
+                            <TextBlock Grid.Column="6" Text="{Binding QuantityInStock}"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <!-- Кнопки управления -->
+        <StackPanel Grid.Row="3"
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right" 
+                    Spacing="10">
+            
+            <Button Content="Добавить книгу" Command="{Binding AddBookCommand}" Width="120"/>
+            <Button Content="Редактировать" Command="{Binding EditBookCommand}" Width="120"/>
+            <Button Content="Удалить" Command="{Binding DeleteBookCommand}" Width="120"/>
+            <Button Content="Авторы" Command="{Binding ManageAuthorsCommand}" Width="100"/>
+            <Button Content="Жанры" Command="{Binding ManageGenresCommand}" Width="100"/>
+        </StackPanel>
+    </Grid>
+</Window>

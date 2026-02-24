@@ -1,0 +1,44 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:LibraryApp.ViewModels"
+        xmlns:models="using:LibraryApp.Models"
+        x:Class="LibraryApp.Views.GenresWindow"
+        x:DataType="vm:GenresWindowViewModel"
+        Title="Управление жанрами"
+        Width="500" Height="400">
+    
+    <Design.DataContext>
+        <vm:GenresWindowViewModel />
+    </Design.DataContext>
+    
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <ListBox Grid.Row="0" 
+                 ItemsSource="{Binding Genres}" 
+                 SelectedItem="{Binding SelectedGenre}"
+                 Margin="0,0,0,10">
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="models:Genre">
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding Description}" FontSize="11" Foreground="Gray"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <StackPanel Grid.Row="1" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right" 
+                    Spacing="10">
+            <Button Content="Добавить" Command="{Binding AddCommand}" Width="80"/>
+            <Button Content="Изменить" Command="{Binding EditCommand}" Width="80"/>
+            <Button Content="Удалить" Command="{Binding DeleteCommand}" Width="80"/>
+            <Button Content="Закрыть" Command="{Binding CloseCommand}" Width="80"/>
+        </StackPanel>
+    </Grid>
+</Window>

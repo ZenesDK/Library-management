@@ -1,0 +1,52 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:LibraryApp.ViewModels"
+        xmlns:models="using:LibraryApp.Models"
+        x:Class="LibraryApp.Views.BookEditWindow"
+        x:DataType="vm:BookEditViewModel"
+        Title="{Binding WindowTitle}"
+        Width="500" Height="800">
+    
+    <Design.DataContext>
+        <vm:BookEditViewModel />
+    </Design.DataContext>
+    
+    <StackPanel Margin="20" Spacing="10">
+        <TextBlock Text="{Binding WindowTitle}" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+        
+        <TextBox Watermark="Название книги" Text="{Binding Title}"/>
+        
+        <TextBlock Text="Авторы (выберите несколько, удерживая Ctrl)" Margin="0,5,0,0"/>
+        <ListBox Name="AuthorsListBox" 
+                 ItemsSource="{Binding AvailableAuthors}" 
+                 SelectionMode="Multiple"
+                 Height="100">
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="models:Author">
+                    <TextBlock Text="{Binding FullName}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <TextBlock Text="Жанры (выберите несколько, удерживая Ctrl)" Margin="0,5,0,0"/>
+        <ListBox Name="GenresListBox" 
+                 ItemsSource="{Binding AvailableGenres}" 
+                 SelectionMode="Multiple"
+                 Height="100">
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="models:Genre">
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <TextBox Watermark="Год издания" Text="{Binding PublishYear}"/>
+        <TextBox Watermark="ISBN" Text="{Binding ISBN}"/>
+        <TextBox Watermark="Количество в наличии" Text="{Binding QuantityInStock}"/>
+        
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10" Margin="0,20,0,0">
+            <Button Content="Сохранить" Command="{Binding SaveCommand}" Width="80"/>
+            <Button Content="Отмена" Command="{Binding CancelCommand}" Width="80"/>
+        </StackPanel>
+    </StackPanel>
+</Window>
